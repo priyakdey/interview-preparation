@@ -1,6 +1,8 @@
 package com.priyakdey;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
 
 /**
@@ -11,35 +13,47 @@ public class P0314 {
     public List<List<Integer>> verticalOrder(TreeNode root) {
         if (root == null) return new ArrayList<>();
 
-        List<List<Integer>> acc = new ArrayList<>();
-        acc.add(new ArrayList<>());
+        List<List<Integer>> res = new ArrayList<>();
+        res.add(new ArrayList<>());
+        int mid = 0;
 
-        verticalOrder(root, 0, acc, 0);
-        return acc;
-    }
+        Deque<Pair> queue = new ArrayDeque<>();
+        queue.offer(new Pair(root, 0));
 
-    private void verticalOrder(TreeNode node, int offset, List<List<Integer>> acc, int origin) {
-        if (node == null) return;
+        while (!queue.isEmpty()) {
+            Pair pair = queue.poll();
+            TreeNode node = pair.node;
+            int offset = pair.offset;
 
-        if (offset == 0) {
-            acc.get(origin).add(node.val);
-        } else if (offset < 0) {
-            int length = origin - 1 - offset + 1;
-            if (origin - offset >= length) {
-                acc.addFirst(new ArrayList<>());
-                origin++;
+            if (offset == 0) {
+                res.get(mid).add(node.val);
+            } else if (offset < 0) {
+                if (mid + offset < 0) {
+                    res.addFirst(new ArrayList<>());
+                    mid++;
+                }
+                res.get(mid + offset).add(node.val);
+            } else {
+                if (offset + mid >= res.size()) {
+                    res.add(new ArrayList<>());
+                }
+                res.get(offset + mid).add(node.val);
             }
-            acc.get(origin - offset).add(node.val);
-        } else {
-            int i = origin + offset;
-            if (i >= acc.size()) {
-                acc.addLast(new ArrayList<>());
+
+
+            if (node.left != null) {
+                queue.offer(new Pair(node.left, offset - 1));
             }
-            acc.get(i).add(node.val);
+            if (node.right != null) {
+                queue.offer(new Pair(node.right, offset + 1));
+            }
+
         }
 
-        verticalOrder(node.left, offset - 1, acc, origin);
-        verticalOrder(node.right, offset + 1, acc, origin);
+        return res;
+    }
+
+    private record Pair(TreeNode node, int offset) {
     }
 
     private static class TreeNode {
