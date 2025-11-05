@@ -12,41 +12,33 @@ public class P0708 {
         if (head == null) {
             node.next = node;
             return node;
-        };
-
-        if (head == head.next) {
+        } else if (head.next == head) {
             head.next = node;
             node.next = head;
             return head;
         }
 
-        Node curr = head.next;
-        Node prev = head;
-
-        boolean inserted = false;
-
-        while (curr != head) {
-            if (insertVal >= prev.val && insertVal <= curr.val) {
+        Node curr = head;
+        while (curr.next != head) {
+            if (insertVal == curr.val) {
                 break;
             }
-            prev = curr;
+            if (curr.val < curr.next.val && insertVal > curr.val && insertVal < curr.next.val) {
+                break;
+            }
+            if (curr.val > curr.next.val) {
+                if (insertVal < curr.val && insertVal < curr.next.val) {
+                    break;
+                } else if (insertVal > curr.val) {
+                    break;
+                }
+            }
             curr = curr.next;
         }
 
-
-        if (insertVal <= curr.val && insertVal >= prev.val) {
-            prev.next = node;
-            node.next = curr;
-        } else {
-            // this needs to be inserted before prev
-            while (curr.next != prev) {
-                curr = curr.next;
-            }
-
-            curr.next = node;
-            node.next = prev;
-        }
-
+        Node next = curr.next;
+        curr.next = node;
+        node.next = next;
         return head;
     }
 
