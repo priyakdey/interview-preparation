@@ -57,39 +57,22 @@ public class BinaryTreeCodec {
             String leftVal = nodes[cursor];
             if (!Objects.equals(leftVal, "")) {
                 node.left = new TreeNode(Integer.parseInt(leftVal));
+                queue.offer(node.left);
             }
 
             if (cursor + 1 >= length) {
                 break;
             }
 
-            String rightVal = nodes[cursor];
+            String rightVal = nodes[cursor + 1];
             if (!Objects.equals(rightVal, "")) {
-                node.left = new TreeNode(Integer.parseInt(rightVal));
+                node.right = new TreeNode(Integer.parseInt(rightVal));
+                queue.offer(node.right);
             }
             cursor += 2;
         }
 
         return root;
-    }
-
-    public class TreeNode {
-        int val;
-        TreeNode left;
-        TreeNode right;
-
-        TreeNode() {
-        }
-
-        TreeNode(int val) {
-            this.val = val;
-        }
-
-        TreeNode(int val, TreeNode left, TreeNode right) {
-            this.val = val;
-            this.left = left;
-            this.right = right;
-        }
     }
 
 }
