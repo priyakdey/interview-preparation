@@ -7,7 +7,7 @@ public class SearchInRotatedArray {
 
     public int search(int[] nums, int target) {
         int length = nums.length;
-        int left = 0, right  = length - 1;
+        int left = 0, right = length - 1;
 
         int index = -1;
 

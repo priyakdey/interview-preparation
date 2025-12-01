@@ -10,7 +10,7 @@ public class ReverseInteger {
     // TODO: LATER
 
     public int reverse(int x) {
-
+        return 1;
     }
 
 }
