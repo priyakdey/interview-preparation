@@ -1,7 +1,7 @@
 package com.priyakdey;
 
-import java.util.ArrayDeque;
-import java.util.Deque;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Priyak Dey
@@ -9,19 +9,37 @@ import java.util.Deque;
 public class LongestIncreasingSubsequence {
 
     public int lengthOfLIS(int[] nums) {
-        int maxLength = 0;
-        Deque<Integer> stack = new ArrayDeque<>(nums.length);
+        List<Integer> buffer = new ArrayList<>(nums.length);
 
         for (int num : nums) {
-            while (!stack.isEmpty() && num <= stack.peek()) {
-                stack.pop();
+            if (buffer.isEmpty() || num > buffer.getLast()) {
+                buffer.add(num);
+            } else if (num == buffer.getLast()) {
+                continue;
+            } else {
+                int index = findFirstInsertPosition(buffer, num);
+                buffer.add(index, num);
+                buffer = buffer.subList(0, index + 1);
             }
-
-            stack.push(num);
-            maxLength = Math.max(maxLength, stack.size());
         }
 
-        return maxLength;
+        return buffer.size();
+    }
+
+    private int findFirstInsertPosition(List<Integer> arr, int target) {
+        int left = 0, right = arr.size() - 1;
+        int index = -1;
+        while (left <= right) {
+            int mid = left + (right - left) / 2;
+            if (arr.get(mid) >= target) {
+                index = mid;
+                right = mid - 1;
+            } else {
+                left = mid + 1;
+            }
+        }
+
+        return index;
     }
 
 }
