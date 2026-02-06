@@ -5,8 +5,6 @@ package com.priyakdey;
  */
 public class P0708 {
 
-    // TODO: not finished, start with this.
-
     public Node insert(Node head, int insertVal) {
         Node node = new Node(insertVal);
         if (head == null) {
@@ -23,7 +21,8 @@ public class P0708 {
             if (insertVal == curr.val) {
                 break;
             }
-            if (curr.val < curr.next.val && insertVal > curr.val && insertVal < curr.next.val) {
+            if (curr.val < curr.next.val && insertVal > curr.val
+                    && insertVal < curr.next.val) {
                 break;
             }
             if (curr.val > curr.next.val) {
@@ -41,6 +40,7 @@ public class P0708 {
         node.next = next;
         return head;
     }
+
 
     private static class Node {
         private int val;
